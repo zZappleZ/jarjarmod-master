@@ -1,4 +1,4 @@
-package net.jarjar.jarjarmod.component.powersuppresion;
+package net.jarjar.jarjarmod.component.powersuppression;
 
 import dev.onyxstudios.cca.api.v3.component.Component;
 
