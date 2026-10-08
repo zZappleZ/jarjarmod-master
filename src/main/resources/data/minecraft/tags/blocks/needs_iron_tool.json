@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "jarjarmod:ruby_block",
+    "jarjarmod:ruby_ore",
+    "jarjarmod:deepslate_ruby_ore"
+  ]
+}

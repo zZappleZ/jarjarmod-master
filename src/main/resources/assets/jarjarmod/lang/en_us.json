@@ -1,0 +1,10 @@
+{
+  "item.jarjarmod.ruby": "Ruby",
+  "item.jarjarmod.archivist_quill": "Archivist's Quill",
+  "item.jarjarmod.metal_detector": "Metal Detector",
+  "block.jarjarmod.ruby_block": "Ruby Block",
+  "block.jarjarmod.ruby_ore": "Ruby Ore",
+  "block.jarjarmod.deepslate_ruby_ore": "Deepslate Ruby Ore",
+
+  "itemgroup.ruby": "Rubies"
+}
