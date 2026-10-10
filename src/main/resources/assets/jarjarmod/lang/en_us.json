@@ -6,5 +6,8 @@
   "block.jarjarmod.ruby_ore": "Ruby Ore",
   "block.jarjarmod.deepslate_ruby_ore": "Deepslate Ruby Ore",
 
-  "itemgroup.ruby": "Rubies"
+  "itemgroup.ruby": "Rubies",
+
+  "category.jajarmod.archivist": "JarJarMod",
+  "key.jajarmod.open_archivist_menu": "Open Archivist Menu"
 }
