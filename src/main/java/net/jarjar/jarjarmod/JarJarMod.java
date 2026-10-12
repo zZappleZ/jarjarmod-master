@@ -13,6 +13,7 @@ import net.jarjar.jarjarmod.component.DomainComponent;
 import net.jarjar.jarjarmod.component.handling.ArchivistDataTransfer;
 import net.jarjar.jarjarmod.component.handling.ArchivistPackets;
 import net.jarjar.jarjarmod.component.handling.TomePackets;
+import net.jarjar.jarjarmod.effect.ModEffects;
 import net.jarjar.jarjarmod.item.ModItemGroups;
 import net.jarjar.jarjarmod.item.ModItems;
 import net.jarjar.jarjarmod.system.InkflowReplenishmentHandler;
@@ -40,6 +41,7 @@ public class JarJarMod implements ModInitializer {
 		ModItemGroups.registerItemGroups();
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
+		ModEffects.registerModEffects();
 		ArchivistTestCommands.register();
 		ArchivistDataTransfer.register();
 		InkflowReplenishmentHandler.register();

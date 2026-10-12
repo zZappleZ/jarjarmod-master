@@ -9,5 +9,18 @@
   "itemgroup.ruby": "Rubies",
 
   "category.jajarmod.archivist": "JarJarMod",
-  "key.jajarmod.open_archivist_menu": "Open Archivist Menu"
+  "key.jajarmod.open_archivist_menu": "Open Archivist Menu",
+
+  "effect.jarjarmod.bleed": "Bleed",
+  "effect.jarjarmod.papercut": "Papercut",
+  "effect.jarjarmod.inked": "Inked",
+
+  "death.attack.bleed": "%1$s bled to death",
+  "death.attack.bleed.player": "%1$s bled to death whilst fighting %2$s",
+
+  "death.attack.papercut": "%1$s died to a thousand papercuts",
+  "death.attack.papercut.player": "%1$s died to a thousand papercuts whilst fighting %2$s",
+
+  "death.attack.inked": "%1$s was imbued with too much ink",
+  "death.attack.inked.player": "%1$s was imbued with too much ink by the hands of %2$s"
 }
