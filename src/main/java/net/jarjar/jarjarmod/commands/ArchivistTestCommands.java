@@ -5,7 +5,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.jarjar.jarjarmod.component.handling.ArchivistPackets;
-import net.minecraft.command.argument.EntityArgumentType;
+import net.jarjar.jarjarmod.component.handling.TomePackets;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -99,10 +99,28 @@ public class ArchivistTestCommands {
                             .then(CommandManager.argument("tomeId", StringArgumentType.string())
                                     .executes(ctx -> {
                                         String tomeId = StringArgumentType.getString(ctx, "tomeId");
-                                        ModPlayerData data = getData(ctx.getSource());
+                                        ServerPlayerEntity player = ctx.getSource().getPlayer();
+
+                                        if (player == null) {
+                                            ctx.getSource().sendError(
+                                                    Text.literal("This command must be run by a player.")
+                                            );
+                                            return 0;
+                                        }
+                                        ModPlayerData data = (ModPlayerData) player;
                                         boolean added = data.unlockTome(tomeId);
-                                        ctx.getSource().sendFeedback(() ->
-                                                Text.literal(added ? "Unlocked " + tomeId : tomeId + " was already unlocked"), false);
+
+                                        TomePackets.syncTomes(player);
+
+                                        ctx.getSource().sendFeedback(
+                                                () -> Text.literal(
+                                                        added
+                                                                ? "Unlocked " + tomeId
+                                                                : tomeId + " was already unlocked"
+                                                ),
+                                                false
+                                        );
+
                                         return 1;
                                     })))
 

@@ -12,6 +12,7 @@ import net.jarjar.jarjarmod.commands.ArchivistTestCommands;
 import net.jarjar.jarjarmod.component.DomainComponent;
 import net.jarjar.jarjarmod.component.handling.ArchivistDataTransfer;
 import net.jarjar.jarjarmod.component.handling.ArchivistPackets;
+import net.jarjar.jarjarmod.component.handling.TomePackets;
 import net.jarjar.jarjarmod.item.ModItemGroups;
 import net.jarjar.jarjarmod.item.ModItems;
 import net.jarjar.jarjarmod.system.InkflowReplenishmentHandler;
@@ -42,6 +43,7 @@ public class JarJarMod implements ModInitializer {
 		ArchivistTestCommands.register();
 		ArchivistDataTransfer.register();
 		InkflowReplenishmentHandler.register();
+		TomePackets.registerServerReceivers();
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			dispatcher.register(CommandManager.literal("checkvalue")
@@ -90,18 +92,30 @@ public class JarJarMod implements ModInitializer {
 		});
 
 		//HUD Sync
+
+		// Initial player state synchronization.
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 			ArchivistPackets.syncInkflow(handler.player);
+			TomePackets.syncTomes(handler.player);
 		});
-		ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer,newPlayer,alive) -> {
+
+		ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
 			ArchivistPackets.syncInkflow(newPlayer);
+			TomePackets.syncTomes(newPlayer);
 		});
+
 		ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> {
 			ArchivistPackets.syncInkflow(newPlayer);
+			TomePackets.syncTomes(newPlayer);
 		});
-		ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player,oldWorld,newWorld) -> {
-				ArchivistPackets.syncInkflow(player);
-		});
+
+		ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(
+				(player, oldWorld, newWorld) -> {
+					ArchivistPackets.syncInkflow(player);
+					TomePackets.syncTomes(player);
+				}
+		);
+
 
 		LOGGER.info("Hello Fabric world!");
 	}

@@ -7,6 +7,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.jarjar.jarjarmod.client.InkflowHudOverlay;
 import net.jarjar.jarjarmod.client.screen.ArchivistMenuScreen;
 import net.jarjar.jarjarmod.component.handling.ArchivistPackets;
+import net.jarjar.jarjarmod.component.handling.TomePackets;
 
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -19,6 +20,7 @@ public class ModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ArchivistPackets.registerGlobalReceiversS2C();
+        TomePackets.registerClientReceivers();
         HudRenderCallback.EVENT.register(new InkflowHudOverlay());
 
         openMenuKey = KeyBindingHelper.registerKeyBinding(
