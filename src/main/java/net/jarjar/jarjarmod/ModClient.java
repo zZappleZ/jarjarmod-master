@@ -16,6 +16,7 @@ import org.lwjgl.glfw.GLFW;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.jarjar.jarjarmod.client.screen.BookOfAlchemyScreen;
 import net.jarjar.jarjarmod.component.handling.AlchemyPackets;
+import net.jarjar.jarjarmod.client.AlchemyClientPackets;
 
 
 public class ModClient implements ClientModInitializer {
@@ -26,6 +27,7 @@ public class ModClient implements ClientModInitializer {
     public void onInitializeClient() {
         ArchivistPackets.registerGlobalReceiversS2C();
         AlchemyPackets.registerClientReceivers();
+        AlchemyClientPackets.registerReceivers();
         TomePackets.registerClientReceivers();
         HudRenderCallback.EVENT.register(new InkflowHudOverlay());
 

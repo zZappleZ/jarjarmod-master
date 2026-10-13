@@ -3,10 +3,10 @@ package net.jarjar.jarjarmod.tomes.alchemy;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -18,16 +18,12 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public final class AlchemyArchiveConfig {
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Path PATH = FabricLoader.getInstance().getConfigDir()
+            .resolve("jarjarmod")
+            .resolve("alchemy_archive.json");
 
-    private static final Gson GSON =
-            new GsonBuilder().setPrettyPrinting().create();
-
-    private static final Path CONFIG_PATH =
-            FabricLoader.getInstance().getConfigDir()
-                    .resolve("jarjarmod")
-                    .resolve("alchemy_archive.json");
-
-    private static final Set<String> DEFAULT_ITEMS = Set.of(
+    private static final Set<String> DEFAULTS = Set.of(
             "minecraft:blaze_powder",
             "minecraft:nether_wart",
             "minecraft:redstone",
@@ -45,75 +41,55 @@ public final class AlchemyArchiveConfig {
             "minecraft:dragon_breath"
     );
 
-    private static Set<String> allowedItems = new LinkedHashSet<>();
+    private static Set<String> allowed = new LinkedHashSet<>();
 
     private AlchemyArchiveConfig() {
     }
 
     public static void load() {
         try {
-            Files.createDirectories(CONFIG_PATH.getParent());
+            Files.createDirectories(PATH.getParent());
 
-            if (Files.notExists(CONFIG_PATH)) {
-                JsonObject defaults = new JsonObject();
+            if (Files.notExists(PATH)) {
+                JsonObject json = new JsonObject();
                 JsonArray items = new JsonArray();
-
-                for (String id : DEFAULT_ITEMS) {
-                    items.add(id);
-                }
-
-                defaults.add("allowed_items", items);
-
-                Files.writeString(
-                        CONFIG_PATH,
-                        GSON.toJson(defaults)
-                );
+                DEFAULTS.forEach(items::add);
+                json.add("allowed_items", items);
+                Files.writeString(PATH, GSON.toJson(json));
             }
 
-            JsonObject root = GSON.fromJson(
-                    Files.readString(CONFIG_PATH),
-                    JsonObject.class
-            );
-
+            JsonObject json = GSON.fromJson(Files.readString(PATH), JsonObject.class);
             Set<String> loaded = new LinkedHashSet<>();
 
-            if (root != null && root.has("allowed_items")
-                    && root.get("allowed_items").isJsonArray()) {
-                for (var element : root.getAsJsonArray("allowed_items")) {
+            if (json != null && json.has("allowed_items")
+                    && json.get("allowed_items").isJsonArray()) {
+                for (var element : json.getAsJsonArray("allowed_items")) {
                     if (!element.isJsonPrimitive()
                             || !element.getAsJsonPrimitive().isString()) {
                         continue;
                     }
 
-                    Identifier id = Identifier.tryParse(
-                            element.getAsString()
-                    );
-
+                    Identifier id = Identifier.tryParse(element.getAsString());
                     if (id != null && Registries.ITEM.containsId(id)
-                            && Registries.ITEM.get(id)
-                            != net.minecraft.item.Items.AIR) {
+                            && Registries.ITEM.get(id) != Items.AIR) {
                         loaded.add(id.toString());
                     }
                 }
             }
 
-            allowedItems = loaded;
+            allowed = loaded;
         } catch (IOException | RuntimeException exception) {
-            allowedItems = new LinkedHashSet<>(DEFAULT_ITEMS);
-            System.err.println(
-                    "[JarJarMod] Failed to load alchemy archive config: "
-                            + exception.getMessage()
-            );
+            allowed = new LinkedHashSet<>(DEFAULTS);
+            System.err.println("[JarJarMod] Could not load alchemy archive config: "
+                    + exception.getMessage());
         }
     }
 
     public static boolean isAllowed(String itemId) {
-        return itemId != null && allowedItems.contains(itemId);
+        return allowed.contains(itemId);
     }
 
     public static Set<String> getAllowedItems() {
-        return Collections.unmodifiableSet(
-                new LinkedHashSet<>(allowedItems)
-        );
+        return Collections.unmodifiableSet(new LinkedHashSet<>(allowed));
     }
 }
