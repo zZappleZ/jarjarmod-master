@@ -13,6 +13,11 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.jarjar.jarjarmod.client.screen.BookOfAlchemyScreen;
+import net.jarjar.jarjarmod.component.handling.AlchemyPackets;
+
+
 public class ModClient implements ClientModInitializer {
 
     private static KeyBinding openMenuKey;
@@ -22,6 +27,15 @@ public class ModClient implements ClientModInitializer {
         ArchivistPackets.registerGlobalReceiversS2C();
         TomePackets.registerClientReceivers();
         HudRenderCallback.EVENT.register(new InkflowHudOverlay());
+
+        ClientPlayNetworking.registerGlobalReceiver(
+                AlchemyPackets.OPEN_ALCHEMY_BOOK,
+                (client, handler, buf, responseSender) ->
+                        client.execute(() ->
+                                client.setScreen(new BookOfAlchemyScreen())
+                        )
+        );
+
 
         openMenuKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(

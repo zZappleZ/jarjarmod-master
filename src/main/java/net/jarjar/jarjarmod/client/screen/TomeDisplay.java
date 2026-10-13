@@ -29,9 +29,14 @@ public final class TomeDisplay {
         };
     }
 
+
     public static Text getName(String tomeId) {
         if (tomeId == null || tomeId.isEmpty()) {
             return Text.literal("Empty Slot");
+        }
+
+        if ("archivist:book_of_alchemy".equals(tomeId)) {
+            return Text.literal("Book of Alchemy");
         }
 
         String path = tomeId.contains(":")
@@ -59,4 +64,5 @@ public final class TomeDisplay {
 
         return Text.literal(name.toString());
     }
+
 }

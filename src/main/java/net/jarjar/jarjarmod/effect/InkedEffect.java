@@ -49,7 +49,7 @@ public class InkedEffect extends StatusEffect {
             int level = amplifier + 1;
             float damage = 1.5F + 1.5F * level;
 
-            entity.damage(entity.getDamageSources().magic(), damage);
+            entity.damage(ModDamageSources.create(entity, ModDamageTypes.INKED), damage);
         }
     }
 }

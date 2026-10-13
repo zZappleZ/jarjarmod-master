@@ -4,6 +4,7 @@ import net.jarjar.jarjarmod.component.ModPlayerData;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.jarjar.jarjarmod.component.handling.AlchemyPackets;
 import net.jarjar.jarjarmod.component.handling.ArchivistPackets;
 import net.jarjar.jarjarmod.component.handling.TomePackets;
 import net.minecraft.server.command.CommandManager;
@@ -162,7 +163,28 @@ public class ArchivistTestCommands {
                                                         Text.literal("Set " + name + " focus to " + level +
                                                                 " (capacity now " + data.getInkflowCapacity() + ")"), false);
                                                 return 1;
-                                            })))));
+                                            }))))
+
+                    // GUI Displays
+                    .then(CommandManager.literal("gui")
+                            .then(CommandManager.literal("alchemy")
+                                    .executes(ctx -> {
+                                        ServerPlayerEntity player =
+                                                ctx.getSource().getPlayer();
+
+                                        if (player == null) {
+                                            ctx.getSource().sendError(
+                                                    Text.literal(
+                                                            "This command must be run by a player."
+                                                    )
+                                            );
+                                            return 0;
+                                        }
+
+                                        AlchemyPackets.openBook(player);
+                                        return 1;
+                                    })))
+            );
 
         });
     }

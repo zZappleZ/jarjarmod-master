@@ -22,5 +22,15 @@
   "death.attack.papercut.player": "%1$s died to a thousand papercuts whilst fighting %2$s",
 
   "death.attack.inked": "%1$s was imbued with too much ink",
-  "death.attack.inked.player": "%1$s was imbued with too much ink by the hands of %2$s"
+  "death.attack.inked.player": "%1$s was imbued with too much ink by the hands of %2$s",
+
+  "tome.archivist.book_of_alchemy": "Book of Alchemy",
+  "screen.jarjarmod.alchemy.brewing": "Automatic Brewing",
+  "screen.jarjarmod.alchemy.archive": "Ingredient Archive",
+  "screen.jarjarmod.alchemy.search": "Search ingredients...",
+  "screen.jarjarmod.alchemy.brewing_status": "Brewing progress",
+  "screen.jarjarmod.alchemy.archive_limit": "Storage: 1024 per item",
+  "screen.jarjarmod.alchemy.title": "Book of Alchemy"
+
+
 }
