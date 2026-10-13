@@ -13,6 +13,10 @@ import net.jarjar.jarjarmod.component.DomainComponent;
 import net.jarjar.jarjarmod.component.handling.ArchivistDataTransfer;
 import net.jarjar.jarjarmod.component.handling.ArchivistPackets;
 import net.jarjar.jarjarmod.component.handling.TomePackets;
+
+import net.jarjar.jarjarmod.tomes.alchemy.AlchemyArchiveConfig;
+import net.jarjar.jarjarmod.component.handling.AlchemyPackets;
+
 import net.jarjar.jarjarmod.effect.ModEffects;
 import net.jarjar.jarjarmod.item.ModItemGroups;
 import net.jarjar.jarjarmod.item.ModItems;
@@ -46,6 +50,10 @@ public class JarJarMod implements ModInitializer {
 		ArchivistDataTransfer.register();
 		InkflowReplenishmentHandler.register();
 		TomePackets.registerServerReceivers();
+
+		AlchemyArchiveConfig.load();
+		AlchemyPackets.registerServerReceivers();
+
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			dispatcher.register(CommandManager.literal("checkvalue")

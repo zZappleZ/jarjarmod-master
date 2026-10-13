@@ -25,6 +25,7 @@ public class ModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ArchivistPackets.registerGlobalReceiversS2C();
+        AlchemyPackets.registerClientReceivers();
         TomePackets.registerClientReceivers();
         HudRenderCallback.EVENT.register(new InkflowHudOverlay());
 
