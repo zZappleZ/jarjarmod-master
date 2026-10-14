@@ -48,8 +48,10 @@ public final class AlchemyPackets {
                     int amount = buf.readVarInt();
 
                     server.execute(() -> {
-                        if (amount < 1 || amount > 64
-                                || (action != DEPOSIT && action != WITHDRAW)
+                        boolean depositAll = action == 0 && amount == -1;
+
+                        if ((!depositAll && (amount < 1 || amount > 64))
+                                || (action != 0 && action != 1)
                                 || !AlchemyArchiveConfig.isAllowed(itemId)) {
                             syncArchive(player);
                             return;
@@ -62,8 +64,8 @@ public final class AlchemyPackets {
                             return;
                         }
 
-                        if (action == DEPOSIT) {
-                            deposit(player, itemId, amount);
+                        if (action == 0) {
+                            deposit(player, itemId, depositAll ? Integer.MAX_VALUE : amount);
                         } else {
                             withdraw(player, itemId, amount);
                         }

@@ -63,6 +63,18 @@ public final class AlchemyClientPackets {
         sendAction(1, itemId, amount);
     }
 
+    public static void requestDepositAll(String itemId) {
+        if (itemId == null || itemId.length() > 256) {
+            return;
+        }
+
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeVarInt(0); // Deposit
+        buf.writeString(itemId);
+        buf.writeVarInt(-1); // Server interprets -1 as "all available"
+        ClientPlayNetworking.send(AlchemyPackets.ARCHIVE_ACTION, buf);
+    }
+
     private static void sendAction(int action, String itemId, int amount) {
         if (itemId == null || itemId.length() > 256
                 || amount < 1 || amount > 64) {
